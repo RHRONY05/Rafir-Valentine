@@ -18,13 +18,20 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .container {
             text-align: center;
             position: relative;
             z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            min-height: 100vh;
+            justify-content: center;
         }
 
         h1 {
@@ -128,7 +135,7 @@
             display: none;
             font-size: 2rem;
             color: #d63384;
-            margin-top: 30px;
+            margin-top: 10px;
             font-weight: bold;
             animation: fadeIn 0.5s ease-in;
             padding: 0 20px;
@@ -231,12 +238,12 @@
         </div>
 
         <div class="message" id="message"></div>
-        <button id="yesBackBtn" class="hidden" style="margin-top: 20px; background: linear-gradient(135deg, #6c757d, #5a6268); color: white; padding: 15px 40px; font-size: 1.2rem; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">Go Back</button>
+        <button id="yesBackBtn" class="hidden" style="margin-top: 20px; background: linear-gradient(135deg, #6c757d, #5a6268); color: white; padding: 15px 40px; font-size: 1.2rem; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: none;">Go Back</button>
     </div>
 
     <div class="cat-container" id="catContainer">
         <img src="cat-rafi.jpeg" alt="Stop messing with me">
-        <p>stop messing with me</p>
+        <p>Stop messing with me</p>
         <button id="backBtn">Go Back</button>
     </div>
 
@@ -254,17 +261,36 @@
         const yesBackBtn = document.getElementById('yesBackBtn');
 
         yesBtn.addEventListener('click', () => {
-            message.textContent = 'Ummm🥰, you are mine only - Khondokar Rafi';
+            document.querySelector('h1').style.display = 'none';
+            message.innerHTML = 'Ummm🥰, You are only mine <span style="background: linear-gradient(135deg, #ff6b9d, #c9184a); padding: 5px 15px; border-radius: 10px; color: white;">Mrs.Rafi</span> 💕';
             message.style.display = 'block';
+            
+            const mrsRafiImg = document.createElement('img');
+            mrsRafiImg.src = 'mrs-rafi.jpeg';
+            mrsRafiImg.style.maxWidth = '400px';
+            mrsRafiImg.style.width = '90%';
+            mrsRafiImg.style.borderRadius = '20px';
+            mrsRafiImg.style.border = '5px solid #dc3545';
+            mrsRafiImg.style.marginTop = '20px';
+            mrsRafiImg.style.marginBottom = '20px';
+            mrsRafiImg.style.boxShadow = '0 8px 30px rgba(0,0,0,0.3)';
+            mrsRafiImg.style.display = 'block';
+            message.parentElement.appendChild(mrsRafiImg);
+            
             noBtn.style.display = 'none';
             yesBtn.style.display = 'none';
             yesBackBtn.classList.remove('hidden');
+            yesBackBtn.style.display = 'block';
         });
 
         yesBackBtn.addEventListener('click', resetPage);
 
         noBtn.addEventListener('mouseenter', moveNoButton);
         noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+        noBtn.addEventListener('click', (e) => {
             e.preventDefault();
             moveNoButton();
         });
@@ -279,22 +305,19 @@
 
             noClickAttempts++;
 
-            // Check if 15 seconds have passed
+            // Check if 5 seconds have passed
             const elapsedTime = (Date.now() - firstNoAttemptTime) / 1000;
-            if (elapsedTime >= 15) {
+            if (elapsedTime >= 5) {
                 showCatImage();
                 return;
             }
 
             // Move button to random position
-            const container = document.querySelector('.buttons');
-            const containerRect = container.getBoundingClientRect();
-            
             const maxX = window.innerWidth - noBtn.offsetWidth - 50;
             const maxY = window.innerHeight - noBtn.offsetHeight - 50;
             
-            const randomX = Math.random() * maxX;
-            const randomY = Math.random() * maxY;
+            const randomX = Math.max(50, Math.random() * maxX);
+            const randomY = Math.max(50, Math.random() * maxY);
             
             noBtn.style.position = 'fixed';
             noBtn.style.left = randomX + 'px';
@@ -314,6 +337,14 @@
             mainContainer.classList.remove('hidden');
             catContainer.style.display = 'none';
             message.style.display = 'none';
+            document.querySelector('h1').style.display = 'block';
+            
+            // Remove mrs-rafi image if exists
+            const existingImg = mainContainer.querySelector('img');
+            if (existingImg) {
+                existingImg.remove();
+            }
+            
             yesBtn.style.display = 'inline-block';
             noBtn.style.display = 'inline-block';
             yesBackBtn.classList.add('hidden');
@@ -326,12 +357,6 @@
         }
 
         document.getElementById('backBtn').addEventListener('click', resetPage);
-
-        // Prevent clicking on No button
-        noBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            moveNoButton();
-        });
     </script>
 </body>
 </html>
