@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine? 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ffc3e1 0%, #ffb3d9 50%, #ff9ec7 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            color: #dc3545;
+            margin-bottom: 50px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        .rose {
+            font-size: 3rem;
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .rose {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .rose {
+                font-size: 1.5rem;
+            }
+        }
+
+        .buttons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 50px;
+            position: relative;
+            flex-wrap: wrap;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            .buttons {
+                gap: 20px;
+                margin-top: 30px;
+            }
+        }
+
+        button {
+            padding: 20px 60px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            button {
+                padding: 15px 40px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            button {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        #yesBtn {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+        }
+
+        #noBtn {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .message {
+            display: none;
+            font-size: 2rem;
+            color: #d63384;
+            margin-top: 30px;
+            font-weight: bold;
+            animation: fadeIn 0.5s ease-in;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            .message {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .message {
+                font-size: 1.2rem;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .cat-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .cat-container img {
+            max-width: 400px;
+            width: 90%;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            border: 5px solid #dc3545;
+        }
+
+        @media (max-width: 768px) {
+            .cat-container img {
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cat-container img {
+                max-width: 250px;
+            }
+        }
+
+        .cat-container p {
+            font-size: 2rem;
+            color: #d63384;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            .cat-container p {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cat-container p {
+                font-size: 1.2rem;
+            }
+        }
+
+        #backBtn {
+            background: linear-gradient(135deg, #6c757d, #5a6268);
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        #backBtn:hover {
+            transform: scale(1.05);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="mainContainer">
+        <h1>Will you be my valentine? <span class="rose">🌹</span></h1>
+        
+        <div class="buttons">
+            <button id="yesBtn">Yes</button>
+            <button id="noBtn">No</button>
+        </div>
+
+        <div class="message" id="message"></div>
+        <button id="yesBackBtn" class="hidden" style="margin-top: 20px; background: linear-gradient(135deg, #6c757d, #5a6268); color: white; padding: 15px 40px; font-size: 1.2rem; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">Go Back</button>
+    </div>
+
+    <div class="cat-container" id="catContainer">
+        <img src="cat-rafi.jpeg" alt="Stop messing with me">
+        <p>stop messing with me</p>
+        <button id="backBtn">Go Back</button>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const message = document.getElementById('message');
+        const mainContainer = document.getElementById('mainContainer');
+        const catContainer = document.getElementById('catContainer');
+        
+        let noClickAttempts = 0;
+        let firstNoAttemptTime = null;
+        let isGameOver = false;
+
+        const yesBackBtn = document.getElementById('yesBackBtn');
+
+        yesBtn.addEventListener('click', () => {
+            message.textContent = 'Ummm🥰, you are mine only - Khondokar Rafi';
+            message.style.display = 'block';
+            noBtn.style.display = 'none';
+            yesBtn.style.display = 'none';
+            yesBackBtn.classList.remove('hidden');
+        });
+
+        yesBackBtn.addEventListener('click', resetPage);
+
+        noBtn.addEventListener('mouseenter', moveNoButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+
+        function moveNoButton() {
+            if (isGameOver) return;
+
+            // Start timer on first attempt
+            if (firstNoAttemptTime === null) {
+                firstNoAttemptTime = Date.now();
+            }
+
+            noClickAttempts++;
+
+            // Check if 15 seconds have passed
+            const elapsedTime = (Date.now() - firstNoAttemptTime) / 1000;
+            if (elapsedTime >= 15) {
+                showCatImage();
+                return;
+            }
+
+            // Move button to random position
+            const container = document.querySelector('.buttons');
+            const containerRect = container.getBoundingClientRect();
+            
+            const maxX = window.innerWidth - noBtn.offsetWidth - 50;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 50;
+            
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        function showCatImage() {
+            isGameOver = true;
+            mainContainer.classList.add('hidden');
+            catContainer.style.display = 'flex';
+            
+            // Auto redirect after 5 seconds
+            setTimeout(resetPage, 5000);
+        }
+
+        function resetPage() {
+            mainContainer.classList.remove('hidden');
+            catContainer.style.display = 'none';
+            message.style.display = 'none';
+            yesBtn.style.display = 'inline-block';
+            noBtn.style.display = 'inline-block';
+            yesBackBtn.classList.add('hidden');
+            noBtn.style.position = 'relative';
+            noBtn.style.left = '';
+            noBtn.style.top = '';
+            noClickAttempts = 0;
+            firstNoAttemptTime = null;
+            isGameOver = false;
+        }
+
+        document.getElementById('backBtn').addEventListener('click', resetPage);
+
+        // Prevent clicking on No button
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+    </script>
+</body>
+</html>
